@@ -10,4 +10,6 @@ mkdir -p /data/logs/supervisord;
 systemctl enable cron;
 service cron start;
 
+bash /opt/denv/scripts/resticprofile/start.sh;
+
 /usr/bin/supervisord;

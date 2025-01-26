@@ -16,7 +16,7 @@ RUN echo \
 RUN apt-get update && apt-get install -y docker-ce-cli docker-compose-plugin
 
 
-RUN apt-get update && apt-get install -y wget supervisor cron restic rclone inotify-tools
+RUN apt-get update && apt-get install -y wget supervisor cron restic rclone inotify-tools ssh
 
 RUN mkdir -p /var/log/supervisor
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf

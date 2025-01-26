@@ -15,7 +15,12 @@ groups:
 
 default:
   repository: "local:/data/repos/local"
-  password-file: "passwords/default.txt"
+  password-file: "secrets/passwords/default.txt"
+  copy:
+    initialize: true
+    repository-file: "secrets/remote.txt"
+    password-file: "secrets/passwords/default.txt"
+    schedule: hourly
 
 mongo:
   inherit: default

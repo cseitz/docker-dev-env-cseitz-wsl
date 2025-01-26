@@ -1,0 +1,27 @@
+---
+networks:
+  denv:
+    external: true
+
+volumes:
+  resticprofile-data:
+
+services:
+
+# -----------------------------------------------------------------------------
+
+  resticprofile:
+    build:
+      context: ../../containers/resticprofile
+    container_name: denv-resticprofile
+    networks:
+      - denv
+    restart: always
+    volumes:
+      - ../../..:/opt/denv
+      - ../../../config/resticprofile:/etc/resticprofile:ro
+      - resticprofile-data:/data
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+# -----------------------------------------------------------------------------
+

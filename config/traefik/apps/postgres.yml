@@ -1,0 +1,13 @@
+http:
+  routers:
+
+    postgres-http: &postgres-http
+      service: postgres@docker
+      rule: HostRegexp(`postgres.{anydomain:.*}`)
+      entryPoints: web
+
+    # postgres-https:
+    #   <<: *postgres-http
+    #   entryPoints: websecure
+    #   tls:
+    #     certResolver: cloudflare

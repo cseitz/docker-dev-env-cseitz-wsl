@@ -1,0 +1,13 @@
+http:
+  routers:
+
+    elasticsearch-http: &elasticsearch-http
+      service: elasticsearch@docker
+      rule: HostRegexp(`elasticsearch.{anydomain:.*}`)
+      entryPoints: web
+
+    # elasticsearch-https:
+    #   <<: *elasticsearch-http
+    #   entryPoints: websecure
+    #   tls:
+    #     certResolver: cloudflare

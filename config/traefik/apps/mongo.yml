@@ -1,0 +1,13 @@
+http:
+  routers:
+
+    mongo-http: &mongo-http
+      service: mongo@docker
+      rule: HostRegexp(`mongo.{anydomain:.*}`)
+      entryPoints: web
+
+    # mongo-https:
+    #   <<: *mongo-http
+    #   entryPoints: websecure
+    #   tls:
+    #     certResolver: cloudflare

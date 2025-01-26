@@ -1,0 +1,13 @@
+http:
+  routers:
+
+    whoami-http: &whoami-http
+      service: whoami@docker
+      rule: HostRegexp(`whoami.{anydomain:.*}`)
+      entryPoints: web
+
+    # whoami-https:
+    #   <<: *whoami-http
+    #   entryPoints: websecure
+    #   tls:
+    #     certResolver: cloudflare

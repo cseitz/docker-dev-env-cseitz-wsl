@@ -1,0 +1,39 @@
+---
+networks:
+  denv:
+    external: true
+
+volumes:
+  traefik-data:
+
+services:
+
+# -----------------------------------------------------------------------------
+
+  traefik:
+    image: traefik:mimolette
+    container_name: denv-traefik
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ../../../config/traefik:/etc/traefik
+      - traefik-data:/var/opt/traefik
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - denv
+    restart: always
+
+  whoami:
+    image: traefik/whoami
+    container_name: denv-whoami
+    restart: always
+    networks:
+      - denv
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.profile=denv'
+      - 'traefik.http.services.whoami.loadbalancer.server.port=80'
+
+# -----------------------------------------------------------------------------
+

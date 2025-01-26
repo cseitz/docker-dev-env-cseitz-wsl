@@ -1,0 +1,64 @@
+# yaml-language-server: $schema=https://creativeprojects.github.io/resticprofile/jsonschema/config.json
+
+version: "1"
+
+global:
+  scheduler: crond
+  log: "/data/logs/resticprofile.log"
+
+groups:
+  # when starting a backup on profile "full-backup",
+  # it will run the "root" and "src" backup profiles
+  all:
+    - mongo
+    - postgres
+
+default:
+  repository: "local:/data/repos/local"
+  password-file: "passwords/default.txt"
+
+mongo:
+  inherit: default
+  status-file: /opt/denv/temp/backup/status/mongo.json
+
+  retention:
+    after-backup: true
+    keep-last: 2
+    keep-hourly: 1
+    keep-daily: 1
+    keep-weekly: 1
+
+  prune:
+    schedule: "Sun 1:00"
+  
+  backup:
+    verbose: true
+    schedule:
+      - "0,12:00"
+    source-base: "/data/volumes"
+    source:
+      - "denv-mongo-data"
+    run-before: 'bash /opt/denv/scripts/resticprofile/before/mongo.sh'
+
+postgres:
+  inherit: default
+  status-file: /opt/denv/temp/backup/status/postgres.json
+
+  retention:
+    after-backup: true
+    keep-last: 2
+    keep-hourly: 1
+    keep-daily: 1
+    keep-weekly: 1
+
+  prune:
+    schedule: "Sun 1:00"
+  
+  backup:
+    verbose: true
+    schedule:
+      - "0,12:00"
+    source-base: "/data/volumes"
+    source:
+      - "denv-postgres-data"
+    run-before: 'bash /opt/denv/scripts/resticprofile/before/postgres.sh'

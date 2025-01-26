@@ -1,0 +1,33 @@
+---
+networks:
+  denv:
+    external: true
+
+volumes:
+  mongo-data:
+
+services:
+
+# -----------------------------------------------------------------------------
+
+  mongo:
+    image: mongo
+    container_name: denv-mongo
+    restart: always
+    # environment:
+      # MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME:-root}
+      # MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD:-password}
+    ports:
+      - 27000:27017
+      - 27017:27017
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - denv
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.profile=denv'
+      - 'traefik.http.services.mongo.loadbalancer.server.port=27017'
+
+# -----------------------------------------------------------------------------
+

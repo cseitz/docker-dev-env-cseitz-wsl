@@ -1,0 +1,7 @@
+http:
+  routers:
+
+    dashboard-http: &dashboard-http
+      service: api@internal
+      rule: HostRegexp(`traefik.{anydomain:.*}`)
+      entryPoints: web

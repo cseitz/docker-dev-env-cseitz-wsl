@@ -1,0 +1,35 @@
+---
+networks:
+  denv:
+    external: true
+
+volumes:
+  elasticsearch-data:
+
+services:
+
+# -----------------------------------------------------------------------------
+
+  elasticsearch:
+    image: elasticsearch:8.12.2
+    container_name: denv-elasticsearch
+    restart: always
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - xpack.security.http.ssl.enabled=false
+      # - ELASTIC_USERNAME=elastic
+      # - ELASTIC_PASSWORD=password
+    ports:
+      - 9200:9200
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+    networks:
+      - denv
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.profile=denv'
+      - 'traefik.http.services.elasticsearch.loadbalancer.server.port=9200'
+
+# -----------------------------------------------------------------------------
+

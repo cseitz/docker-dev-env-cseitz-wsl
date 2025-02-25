@@ -20,12 +20,18 @@ Traefik acts as a reverse proxy to all the other containers.
 docker compose -f docker/compose/traefik/docker-compose.yml up -d
 ```
 
-You can edit configuration in [`config/traefik`](./config/traefik), or copy configuration over to this directory from other projects.
+You can edit configuration in [`config/traefik`](./config/traefik), or copy configuration over to [`config/traefik/opt`](./config/traefik/opt) from other projects.
 
 If you make a change to any traefik config that isnt the `traefik.yml`, please run:
 ```bash
 # trigger hot reload by touching traefik root config file
 touch config/traefik/traefik.yml
+```
+
+A utility script has also been provided for this.
+```bash
+# trigger hot reload by touching traefik root config file
+config/traefik/reload.sh
 ```
 
 ### Resticprofile
